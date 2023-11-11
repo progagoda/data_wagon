@@ -13,10 +13,10 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 station_coords = pd.read_excel(
-    "/home/drukhary/Projects/WagonData/data_wagon/PyMt/data/STATION_COORDS_HACKATON.xlsx"
+    "C:\\Users\\Artem.Brudar\\Documents\\ITMO\\Hackatons\\data_wagon\\PyMt\\STATION_COORDS_HACKATON.xlsx"
 )
 disl = pd.read_excel(
-    "/home/drukhary/Projects/WagonData/data_wagon/PyMt/data/disl_hackaton.xlsx"
+    "C:\\Users\\Artem.Brudar\\Documents\\ITMO\\Hackatons\\data_wagon\\PyMt\\disl_hackaton.xlsx"
 )
 station_coords = station_coords.dropna()
 nan_rows = disl[disl.isnull().any(axis=1)]

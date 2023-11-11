@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, { useState, useEffect } from 'react'
 import './App.css'
 // import { MainPage } from "./pages/mainPage";
@@ -58,12 +59,27 @@ function App() {
       {vagnums && vagnums.map(({ station, wagnum }) => (
         <Marker position={[station["LATITUDE"],station["LONGITUDE"]]}>
           <Popup>
-            {JSON.stringify(wagnum, null, 2)}
+              <div>
+                  <p className="dictionaryWagon">
+                      Номер вагона: {wagnum.WAGNUM}
+                  </p>
+                  <p className="dictionaryWagon">
+                      Дата обновления: {wagnum.OPERDATE}
+                  </p>
+                  <p className="dictionaryWagon">
+                      Номер станции прибытия: {wagnum.ST_ID_DEST}
+                  </p>
+                  <p className="dictionaryWagon">
+                      Номер станции отправления: {wagnum.ST_ID_DISL}
+                  </p>
+                  <p className="dictionaryWagon">
+                      Номер поезда: {wagnum.TRAIN_INDEX}
+                  </p>
+              </div>
           </Popup>
         </Marker>
       )
       )}
-
     </MapContainer>
   )
 }
