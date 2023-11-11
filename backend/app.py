@@ -18,6 +18,10 @@ station_coords = pd.read_excel(
 disl = pd.read_excel(
     "C:\\Users\\Artem.Brudar\\Documents\\ITMO\\Hackatons\\data_wagon\\PyMt\\disl_hackaton.xlsx"
 )
+peregon = pd.read_excel(
+              "C:\\Users\\Artem.Brudar\\Documents\\ITMO\\Hackatons\\data_wagon\\PyMt\\PEREGON_HACKATON.xlsx"
+          )
+json_data = peregon[['START_CODE', 'END_CODE']].values.tolist()
 station_coords = station_coords.dropna()
 nan_rows = disl[disl.isnull().any(axis=1)]
 
@@ -36,7 +40,9 @@ latest_data = (
     .groupby("WAGNUM")
     .head(1)
 )
+json_data = peregon[['START_CODE', 'END_CODE']].values.tolist()
 
+print(json_data)
 current_locations = []
 for index, row in latest_data.iterrows():
     try:
@@ -84,6 +90,10 @@ def stations():
 def vagnums():
     return current_locations
 
+@app.route("/api/peregon")
+@cross_origin()
+def peregon():
+    return json_data
 
 if __name__ == "__main__":
     app.run()
