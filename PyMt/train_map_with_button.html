@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Train Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Подключаем необходимые библиотеки Folium и Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <!-- Добавляем карту -->
+    <div id="map" style="height: 400px;"></div>
+
+    <!-- Добавляем кнопку -->
+    <button onclick="addDestinationMarker()">Добавить маркер пункта назначения</button>
+
+    <script>
+        // Инициализируем карту
+        var map = L.map('map').setView([55.7558, 37.6176], 10);
+
+        // Добавляем слой карты
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Функция для добавления маркера пункта назначения
+        function addDestinationMarker() {
+            var destinationMarker = L.marker([55.7558, 37.6176]).addTo(map);
+            destinationMarker.bindPopup('Пункт назначения').openPopup();
+        }
+    </script>
+</body>
+</html>
