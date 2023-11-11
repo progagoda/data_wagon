@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import './App.css'
 // import { MainPage } from "./pages/mainPage";
-import {CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer, Tooltip} from 'react-leaflet';
+import {CircleMarker, MapContainer, Marker, Polyline, TileLayer, Tooltip, Popup} from 'react-leaflet';
 import ApiService from './ApiService.js';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     const [stations, setStations] = useState([]);
     const [vagnums, setVagnums] = useState([]);
     const [peregon, setPeregon] = useState([]);
-
+    const [result, setResult] = useState([]);
 
     const fetchStations = () => {
         apiService.getStations()
@@ -51,6 +51,9 @@ function App() {
         fetchPeregon();
     }, []);
 
+    useEffect(() => {
+       console.log(result)
+    }, [result]);
 
     return (
         <MapContainer center={[59.57, 30.19]} zoom={13} scrollWheelZoom={true}
@@ -66,34 +69,55 @@ function App() {
                     radius={6}>
                     <Tooltip>{station_id}</Tooltip>
                 </CircleMarker>
-                <Polyline positions={[lon,lat]} color="#EB5525"/>
-            )}
-            {vagnums && vagnums.map(({station, wagnum}) => (
+            )
+            }
+            {
+                vagnums && vagnums.map(({station, wagnum}) => (
+                    <div onClick={()=> {
+                        vagnums.map(({station, wagnum}) => {
+                            const coord1 = stations.map((station) => {
+                                if (station.id === wagnum.ST_ID_DIS) {
+                                    console.log(wagnum.ST_ID_DIS)
+                                    setResult([[station.lon, station.lat], ...result])
+                                }
+                            })
+                            const coord2 = stations.map((station) => {
+                                if (station.id === wagnum.ST_ID_DIS) {
+                                    setResult([...result, [station.lon, station.lat]])
+                                }
+                            })
+                        })
+                    }
+                    }>
                     <Marker position={[station["LATITUDE"], station["LONGITUDE"]]}>
-                        <Popup>
-                            <div>
+                                <Popup>
+                                <div>
                                 <p className="dictionaryWagon">
-                                    Номер вагона: {wagnum.WAGNUM}
+                                Номер вагона: {wagnum.WAGNUM}
                                 </p>
                                 <p className="dictionaryWagon">
-                                    Дата обновления: {wagnum.OPERDATE}
-                                </p>
-                                <p className="dictionaryWagon">
-                                    Номер станции прибытия: {wagnum.ST_ID_DEST}
-                                </p>
-                                <p className="dictionaryWagon">
-                                    Номер станции отправления: {wagnum.ST_ID_DISL}
-                                </p>
-                                <p className="dictionaryWagon">
-                                    Номер поезда: {wagnum.TRAIN_INDEX}
-                                </p>
-                            </div>
-                        </Popup>
-                    </Marker>
-                )
-            )}
-        </MapContainer>
-    )
+                                Дата обновления: {wagnum.OPERDATE}
+                </p>
+                <p className="dictionaryWagon">
+                Номер станции прибытия: {wagnum.ST_ID_DEST}
+        </p>
+    <p className="dictionaryWagon">
+        Номер станции отправления: {wagnum.ST_ID_DISL}
+    </p>
+    <p className="dictionaryWagon">
+        Номер поезда: {wagnum.TRAIN_INDEX}
+    </p>
+</div>
+</Popup>
+</Marker>
+                    </div>
+)
+)
+}
+
+<Polyline positions={result} color="#EB5525"/>
+</MapContainer>
+)
 }
 
 export default App
